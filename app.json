@@ -1,0 +1,11 @@
+{
+    "pages": [
+      "pages/index/index",
+      "pages/videoPlayer/videoPlayer",
+      "pages/imagePlayer/imagePlayer"
+    ],
+    "window": {
+      "navigationBarTitleText": "文件浏览器"
+    }
+  }
+  

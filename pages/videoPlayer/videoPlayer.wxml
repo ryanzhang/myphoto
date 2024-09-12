@@ -1,0 +1,13 @@
+<view class="video-container">
+  <!-- 设置 full-screen 模式 -->
+  <video 
+    src="{{videoPath}}" 
+    controls 
+    autoplay 
+    show-fullscreen-btn
+    initial-time="0"
+    id="myVideo"
+    class="video-player"
+    bindfullscreenchange="onFullScreenChange"
+  ></video>
+</view>
