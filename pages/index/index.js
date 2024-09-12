@@ -38,7 +38,7 @@ Page({
             fileIndex: -1,
             noMoreFiles: false
         });
-          console.log('Files data in setData:', self.data.files);
+        //   console.log('Files data in setData:', self.data.files);
         },
         fail() {
           wx.showToast({ title: '加载失败', icon: 'none' });
@@ -83,11 +83,16 @@ Page({
   
     // 查看图片文件
     viewImage: function(e) {
+        console.log(e)
         const path = e.currentTarget.dataset.path;
-        console.log("image: " + path)
+        // console.log("page1-image path: " + path)
+        // console.log("page1 - current path: " + this.data.currentDirectory)
         wx.navigateTo({
-          url: `/pages/imagePlayer/imagePlayer?path=${encodeURIComponent(path)}`
-        });
+            url: `/pages/imagePlayer/imagePlayer?path=${path}&currentDirectory=${this.data.currentDirectory}`
+          });        
+        // wx.navigateTo({
+        //   url: `/pages/imagePlayer/imagePlayer?path=${encodeURIComponent(path)}`
+        // });
     },
   
     // 播放上一个文件

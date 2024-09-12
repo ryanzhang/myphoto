@@ -1,4 +1,8 @@
-<view class="image-container">
-  <image src="{{imagePath}}" mode="aspectFit" class="image-player" binderror="onImageError"></image>
-  <text wx:if="{{imageError}}" class="error-message">图片加载失败</text>
+<view class="container">
+  <image src="{{currentImage}}" mode="aspectFit" class="image"></image>
+  <view class="footer">
+    <button class="footer-button" bindtap="prevImage">上一张</button>
+    <button class="footer-button" bindtap="nextImage">下一张</button>
+    <button class="footer-button" bindtap="goBack">返回上一级</button>
+  </view>
 </view>
