@@ -5,35 +5,24 @@
   </view>
 
   <!-- 展示当前目录的文件和目录 -->
-<view class="content">
-  <block wx:for="{{files}}" wx:key="name">
-    <view wx:if="{{item.isDirectory}}" bindtap="openDirectory" data-path="{{item.path}}">
-      目录: {{item.name}}
-    </view>
-    <!-- 使用 isVideo 判断是否为视频文件 -->
-    <view wx:if="{{item.isVideo}}" bindtap="playVideo" data-path="{{item.path}}">
-      视频: {{item.name}}
-    </view>
-    <!-- 使用 isImage 判断是否为图片文件 -->
-    <view wx:if="{{item.isImage}}" bindtap="viewImage" data-path="{{item.path}}">
-      图片: {{item.name}}
-    </view>
-    <!-- <view wx:else>
-      未知文件: {{item.name}} {{item.path}}
-    </view> -->
-  </block>
-</view>
-
-  <view class="navigation">
-    <button bindtap="prevFile">上一个文件</button>
-    <button bindtap="nextFile">下一个文件</button>
+  <view class="content">
+    <block wx:for="{{files}}" wx:key="name">
+      <view wx:if="{{item.isDirectory}}" bindtap="openDirectory" data-path="{{item.path}}" class="file-item directory">
+        {{item.name}}
+      </view>
+      <!-- 使用 isVideo 判断是否为视频文件 -->
+      <view wx:if="{{item.isVideo}}" bindtap="playVideo" data-path="{{item.path}}" class="file-item video">
+        {{item.name}}
+      </view>
+      <!-- 使用 isImage 判断是否为图片文件 -->
+      <view wx:if="{{item.isImage}}" bindtap="viewImage" data-path="{{item.path}}" class="file-item image">
+        {{item.name}}
+      </view>
+    </block>
   </view>
 
-  <!-- 播放当前选中的文件 -->
-  <view wx:if="{{currentFile}}">
-    <video wx:if="{{currentFile.endsWith('.mp4') || currentFile.endsWith('.mov')}}" src="{{currentFile}}" autoplay controls></video>
-    <image wx:if="{{currentFile.endsWith('.jpg') || currentFile.endsWith('.HEIC')}}" src="{{currentFile}}" mode="aspectFit"></image>
+  <!-- 当前目录路径显示 -->
+  <view class="current-path">
+    {{displayDirectory}}
   </view>
-
-  <view wx:if="{{noMoreFiles}}" class="info">到头了</view>
 </view>

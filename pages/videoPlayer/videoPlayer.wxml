@@ -1,7 +1,7 @@
 <view class="video-container">
   <!-- 设置 full-screen 模式 -->
   <video 
-    src="{{videoPath}}" 
+    src="{{currentVideo}}" 
     controls 
     autoplay 
     show-fullscreen-btn
@@ -10,4 +10,16 @@
     class="video-player"
     bindfullscreenchange="onFullScreenChange"
   ></video>
+  <view wx:if="{{showInfo}}" class="current-path">
+        {{displayPath}}
+  </view>
+  <view class="controls">
+    <button bindtap="prevVideo">上一个</button>
+    <button bindtap="nextVideo">下一个</button>
+      <!-- 保存视频按钮 -->
+    <button bindtap="saveVideo" >保存</button>
+    <!-- 显示当前路径 -->
+    <button bindtap="toggleInfo" class="footer-button">信息</button>
+    <button bindtap="goBack">返回</button>
+  </view>
 </view>

@@ -1,6 +1,7 @@
 /* 视频容器样式 */
 .video-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;  /* 水平居中 */
     align-items: center;      /* 垂直居中 */
     height: 100vh;            /* 使容器高度占满屏幕 */
@@ -15,3 +16,51 @@
     object-fit: contain;      /* 保持视频的长宽比 */
   }
   
+  .controls {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #007aff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    flex: 1; /* 让按钮均匀分布 */
+    text-align: center;
+  }
+
+  .footer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 10px;
+  }
+  
+  .footer-button {
+    color: white;
+    background-color: #007aff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 0 2px; /* 在按钮之间添加间隙 */
+  }
+  .current-path {
+    font-family: 'Microsoft YaHei', sans-serif; /* 使用微软雅黑字体 */
+    font-style: italic; /* 斜体字 */
+    font-size: 16px; /* 字体大小 */
+    color: #333; /* 字体颜色为深灰 */
+    margin-top: 20px; /* 与上方元素保持一定的间距 */
+    padding: 10px; /* 内边距让显示更美观 */
+    background-color: #f5f5f5; /* 浅灰背景色突出显示 */
+    border-radius: 8px; /* 边角圆滑 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 添加轻微阴影效果 */
+    text-align: center; /* 居中对齐文字 */
+  }

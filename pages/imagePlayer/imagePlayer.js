@@ -11,7 +11,8 @@ Page({
     //   console.log("path:" + path)
     //   console.log("currentDirectory:" + currentDirectory)
       this.setData({
-        currentImage: path
+        currentImage: path,
+        displayPath: this.extractDisplayPath(path)
       });
       this.loadDirectory(currentDirectory);
     },
@@ -52,7 +53,61 @@ Page({
         });
       }
     },
-  
+    saveImage: function () {
+        wx.downloadFile({
+          url: this.data.currentImage,
+          success: (res) => {
+            if (res.statusCode === 200) {
+              wx.saveImageToPhotosAlbum({
+                filePath: res.tempFilePath,
+                success: () => {
+                  wx.showToast({
+                    title: '保存成功',
+                    icon: 'success'
+                  });
+                },
+                fail: (err) => {
+                  wx.showToast({
+                    title: '保存失败',
+                    icon: 'none'
+                  });
+                  console.error('保存图片失败：', err);
+                }
+              });
+            }
+          },
+          fail: (err) => {
+            wx.showToast({
+              title: '下载失败',
+              icon: 'none'
+            });
+            console.error('下载视频失败：', err);
+          }
+        });
+      },  
+    // 提取显示路径
+    extractDisplayPath: function(fullPath) {
+        // 从 "photo/" 开始提取
+        const match = fullPath.match(/\/nfs\/disk1\/(.+)/);
+        return match ? match[1] : fullPath;
+    },
+
+    // 切换信息显示
+    toggleInfo: function() {
+        this.setData({
+        showInfo: !this.data.showInfo
+        });
+    },
+    // 上滑（下拉）事件，播放上一个文件
+    onPullDownRefresh: function() {
+        this.prevImage();
+        wx.stopPullDownRefresh();
+      },
+    
+      // 下滑（触底）事件，播放下一个文件
+      onReachBottom: function() {
+        this.nextImage();
+      },    
     goBack() {
       wx.navigateBack();
     }

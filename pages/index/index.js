@@ -2,17 +2,18 @@ Page({
     data: {
       baseUrl: 'http://192.168.2.15:81/nfs/disk1/photo/', // 根目录
       currentDirectory: '', // 当前目录
+      displayDirectory: '',
       files: [], // 当前目录下的文件和子目录
       currentFile: null, // 当前正在播放的文件
       fileIndex: -1, // 当前文件索引
       noMoreFiles: false // 到头标志
     },
-  
+
     onLoad: function() {
       // 加载根目录
       this.loadDirectory(this.data.baseUrl);
     },
-  
+    
     // 加载目录
     loadDirectory: function(path) {
       const url = path + 'index.json';
@@ -25,19 +26,22 @@ Page({
               const name = item.name.split('/').pop(); // 提取文件名
               const lowerFilename = name.toLowerCase();
               const isDirectory = !/\.[a-zA-Z0-9]+$/.test(name); // 判断是否为目录
-              const isVideo = lowerFilename.endsWith('.mp4') || lowerFilename.endsWith('.mov'); // 判断是否为视频
+              const isVideo = lowerFilename.endsWith('.mp4') || lowerFilename.endsWith('.mov') || lowerFilename.endsWith('.avi')|| lowerFilename.endsWith('.wmv'); // 判断是否为视频
               const isImage = lowerFilename.endsWith('.jpg') || lowerFilename.endsWith('.heic'); // 判断是否为图片
       
               return { ...item, isDirectory, isVideo, isImage }; // 添加这些属性
             });
-      
+        
         self.setData({
             currentDirectory: path,
+            displayDirectory: self.extractDisplayPath(path),
             files: files,
             currentFile: null,
             fileIndex: -1,
             noMoreFiles: false
         });
+        
+        // console.log(this.data.currentDirectory)
         //   console.log('Files data in setData:', self.data.files);
         },
         fail() {
@@ -45,7 +49,11 @@ Page({
         }
       });
     },
-  
+    extractDisplayPath: function (fullPath) {
+        // 只提取从 "photo/" 开始的部分
+        const match = fullPath.match(/\/nfs\/disk1\/(.+)/);
+        return match ? match[1] : fullPath;
+      },
     // 进入子目录
     openDirectory: function(e) {
       const path = e.currentTarget.dataset.path;
@@ -76,7 +84,7 @@ Page({
     
         // 显示视频播放器，可以使用 <video> 组件
         wx.navigateTo({
-          url: `/pages/videoPlayer/videoPlayer?path=${encodeURIComponent(videoPath)}` // 传递路径到视频播放页面
+          url: `/pages/videoPlayer/videoPlayer?currentVideo=${encodeURIComponent(videoPath)}&currentDirectory=${this.data.currentDirectory}` // 传递路径到视频播放页面
         });
         
     },
@@ -116,28 +124,18 @@ Page({
     },
   
     // 根据索引播放文件
-    playFileAtIndex: function(index) {
-      const file = this.data.files[index];
-      if (this.isVideo(file.name) || this.isImage(file.name)) {
-        this.setData({
-          currentFile: file.path,
-          fileIndex: index,
-          noMoreFiles: false
-        });
-      } else {
-        this.setData({ noMoreFiles: true });
-      }
-    },
+    // playFileAtIndex: function(index) {
+    //   const file = this.data.files[index];
+    //   if (this.isVideo(file.name) || this.isImage(file.name)) {
+    //     this.setData({
+    //       currentFile: file.path,
+    //       fileIndex: index,
+    //       noMoreFiles: false
+    //     });
+    //   } else {
+    //     this.setData({ noMoreFiles: true });
+    //   }
+    // },
   
-    // 上滑（下拉）事件，播放上一个文件
-    onPullDownRefresh: function() {
-      this.prevFile();
-      wx.stopPullDownRefresh();
-    },
-  
-    // 下滑（触底）事件，播放下一个文件
-    onReachBottom: function() {
-      this.nextFile();
-    }
   });
   
